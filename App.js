@@ -1,69 +1,55 @@
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TextInput,
-  ScrollView,
-} from "react-native";
+import { StyleSheet, View, FlatList, Button } from "react-native";
+import TodoItem from "./components/TodoItem";
+import TodoInput from "./components/TodoInput";
 
 export default function App() {
-  const [enteredTodo, setEnteredTodo] = useState("");
   const [showTodo, setShowTodo] = useState([]);
+  const [isAddMode, setIsAddMode] = useState(false);
 
-  const todoInputHandler = (inputText) => {
-    setEnteredTodo(inputText);
+  const addTodoHandler = (enteredTodo) => {
+    setShowTodo((currentTodos) => [
+      ...currentTodos,
+      { key: Math.random().toString(), value: enteredTodo },
+    ]);
+    setIsAddMode(false);
   };
 
-  const addTodoHandler = () => {
-    setShowTodo((showTodo) => [...showTodo, enteredTodo]);
+  const removeTodoHandler = (todoId) => {
+    setShowTodo((currentTodos) => {
+      return currentTodos.filter((todo) => todo.key !== todoId);
+    });
+  };
+
+  const cancelTodoModal = () => {
+    setIsAddMode(false);
   };
 
   return (
     <View style={styles.mainScreen}>
-      <View style={styles.inputContainer}>
-        <TextInput
-          placeholder="ToDO List"
-          style={styles.input}
-          onChangeText={todoInputHandler}
-          value={enteredTodo}
-        />
-        <Button title="ADD" color="green" onPress={addTodoHandler} />
-      </View>
-      <ScrollView>
-        {showTodo.map((goal, i) => (
-          <View key={i} style={styles.list}>
-            <Text>{goal}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <Button title="Add New Item" onPress={() => setIsAddMode(true)} />
+      <TodoInput
+        visible={isAddMode}
+        onAddTodo={addTodoHandler}
+        onCancel={cancelTodoModal}
+      />
+      <FlatList
+        data={showTodo}
+        renderItem={(itemData) => (
+          <TodoItem
+            id={itemData.item.key}
+            onDelete={removeTodoHandler}
+            title={itemData.item.value}
+          />
+        )}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  input: {
-    width: 200,
-    margin: 5,
-    paddingLeft: 10,
-    borderColor: "black",
-    borderWidth: 2,
-  },
   mainScreen: {
-    paddingTop: 30,
-    paddingLeft: 10,
-    paddingRight: 10,
-  },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-  },
-  list: {
-    marginVertical: 10,
-    padding: 10,
-    backgroundColor: "#ccc",
-    borderColor: "black",
-    borderWidth: 1,
+    paddingTop: 40,
+    paddingHorizontal: 10,
   },
 });
