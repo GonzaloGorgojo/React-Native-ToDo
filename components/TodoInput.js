@@ -21,8 +21,12 @@ const TodoInput = (props) => {
           value={enteredTodo}
         />
         <View style={styles.buttonView}>
-          <Button title="ADD" color="green" onPress={addTodoHandler} />
-          <Button title="Close" color="red" onPress={props.onCancel} />
+          <View style={styles.button}>
+            <Button title="ADD" color="green" onPress={addTodoHandler} />
+          </View>
+          <View style={styles.button}>
+            <Button title="Close" color="red" onPress={props.onCancel} />
+          </View>
         </View>
       </View>
     </Modal>
@@ -44,7 +48,12 @@ const styles = StyleSheet.create({
     borderWidth: 2,
   },
   buttonView: {
-    flexDirection: row,
+    width: "70%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  button: {
+    width: "45%",
   },
 });
 
