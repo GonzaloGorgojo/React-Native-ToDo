@@ -8,6 +8,9 @@ export default function App() {
   const [isAddMode, setIsAddMode] = useState(false);
 
   const addTodoHandler = (enteredTodo) => {
+    if (enteredTodo.length === 0) {
+      return;
+    }
     setShowTodo((currentTodos) => [
       ...currentTodos,
       { key: Math.random().toString(), value: enteredTodo },
