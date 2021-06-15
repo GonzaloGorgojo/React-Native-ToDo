@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, View, FlatList, Button } from "react-native";
+import { StyleSheet, View, FlatList, Button, Text } from "react-native";
 import TodoItem from "./components/TodoItem";
 import TodoInput from "./components/TodoInput";
 
@@ -30,6 +30,13 @@ export default function App() {
 
   return (
     <View style={styles.mainScreen}>
+      <View style={styles.titlesView}>
+        <Text style={styles.titleText}>React-Native TO DO APP</Text>
+        <Text style={styles.subtitleText}>
+          Build your grocery store list, your to-do list or whatever list you
+          want !
+        </Text>
+      </View>
       <Button title="Add New Item" onPress={() => setIsAddMode(true)} />
       <TodoInput
         visible={isAddMode}
@@ -54,5 +61,20 @@ const styles = StyleSheet.create({
   mainScreen: {
     paddingTop: 40,
     paddingHorizontal: 10,
+  },
+  titleText: {
+    fontSize: 25,
+    fontWeight: "bold",
+  },
+  titlesView: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
+  },
+  subtitleText: {
+    fontSize: 20,
+    marginHorizontal: 20,
+    marginVertical: 10,
+    color: "green",
   },
 });
